@@ -48,6 +48,8 @@ class ImbalancedDatasetSampler(torch.utils.data.sampler.Sampler):
             return dataset.samples[:][1]
         elif isinstance(dataset, torch.utils.data.Subset):
             return dataset.dataset.imgs[:][1]
+        elif isinstance(dataset, torch.utils.data.ConcatDataset):
+            return self._get_concat_labels(dataset)
         elif isinstance(dataset, torch.utils.data.Dataset):
             return dataset.get_labels()
         else:
@@ -58,3 +60,9 @@ class ImbalancedDatasetSampler(torch.utils.data.sampler.Sampler):
 
     def __len__(self):
         return self.num_samples
+        def _get_concat_labels(self,concatdataset): # added
+        dataset_list = concatdataset.datasets
+        concat_labels = []
+        for ds in dataset_list:
+            concat_labels.extend(ds.get_labels())
+        return concat_labels
