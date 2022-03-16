@@ -60,7 +60,8 @@ class ImbalancedDatasetSampler(torch.utils.data.sampler.Sampler):
 
     def __len__(self):
         return self.num_samples
-        def _get_concat_labels(self,concatdataset): # added
+   
+    def _get_concat_labels(self,concatdataset): # added
         dataset_list = concatdataset.datasets
         concat_labels = []
         for ds in dataset_list:
